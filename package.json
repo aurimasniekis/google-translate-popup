@@ -1,0 +1,28 @@
+{
+  "name": "google-translate-popup",
+  "version": "1.0.0",
+  "main": "main.js",
+  "license": "MIT",
+  "author": {
+    "name": "Aurimas Niekis",
+    "email": "aurimas@niekis.lt",
+    "url": "https://github.com/aurimasniekis"
+  },
+  "homepage": "https://github.com/aurimasniekis/google-translate-popup",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^7.1.11",
+    "electron-builder": "^22.3.2"
+  },
+  "dependencies": {
+    "menubar": "^7.2.0"
+  },
+  "build": {
+    "appId": "com.aurimasniekis.google-trasnlate-popup",
+    "mac": {
+      "category": "public.app-category.productivity"
+    }
+  }
+}
