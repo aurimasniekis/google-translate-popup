@@ -27,7 +27,6 @@ let langState = DEFAULT_STATE;
 
 app.on('ready', () => {
     let mb;
-    const tray = new Tray('./node_modules/menubar/assets/IconTemplate.png');
     const contextMenu = Menu.buildFromTemplate([
         {
             label: 'Show', click: () => {
@@ -37,13 +36,11 @@ app.on('ready', () => {
         {type: 'separator'},
         {label: 'Quit', role: 'quit'},
     ]);
-    tray.setContextMenu(contextMenu);
 
     mb = menubar(
         {
             preloadWindow: true,
             windowPosition: "center",
-            tray,
             browserWindow: {
                 width: options.width,
                 height: options.height
@@ -51,6 +48,10 @@ app.on('ready', () => {
             index: false,
         }
     );
+
+    mb.on('ready', () => {
+        mb.tray.setContextMenu(contextMenu);
+    });
 
     const setLang = (lang) => {
         if (lang !== langState) {

@@ -35,3 +35,10 @@ const options = {
 };
 ```
 
+# Build App
+
+Produces binaries for the app
+
+```sh
+$ npx electron-builder
+``` 
