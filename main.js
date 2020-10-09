@@ -4,14 +4,21 @@ const {globalShortcut, app, Menu, Tray, clipboard} = require('electron');
 const A_TO_B = 1;
 const B_TO_A = 0;
 
+let modifier = 'alt';
+let langModifier = 'ctrl';
+if (process.platform === "darwin") {
+    modifier = 'cmd';
+    langModifier = 'meta';
+}
+
 const options = {
     aLang: 'en',
     bLang: 'ja',
     defaultState: B_TO_A,
-    openAtoB: 'ctrl+cmd+y',
-    openBtoA: 'ctrl+cmd+t',
-    openAndPasteAtoB: 'ctrl+shift+cmd+y',
-    openAndPasteBtoA: 'ctrl+shift+cmd+t',
+    openAtoB: `ctrl+${modifier}+y`,
+    openBtoA: `ctrl+${modifier}+t`,
+    openAndPasteAtoB: `ctrl+shift+${modifier}+y`,
+    openAndPasteBtoA: `ctrl+shift+${modifier}+t`,
     width: 1200,
     height: 600,
     resetAfter: 60 * 3,
@@ -65,9 +72,9 @@ app.on('ready', () => {
                     break;
             }
 
-            mb.window.webContents.sendInputEvent({type: "keyDown", keyCode: 's', modifiers: ["meta", "shift"]});
-            mb.window.webContents.sendInputEvent({type: "char", keyCode: 's', modifiers: ["meta", "shift"]});
-            mb.window.webContents.sendInputEvent({type: "keyUp", keyCode: 's', modifiers: ["meta", "shift"]});
+            mb.window.webContents.sendInputEvent({type: "keyDown", keyCode: 's', modifiers: [langModifier, "shift"]});
+            mb.window.webContents.sendInputEvent({type: "char", keyCode: 's', modifiers: [langModifier, "shift"]});
+            mb.window.webContents.sendInputEvent({type: "keyUp", keyCode: 's', modifiers: [langModifier, "shift"]});
         }
     };
 
@@ -120,7 +127,9 @@ app.on('ready', () => {
                     clipboard.writeText(text);
 
                     mb.hideWindow();
-                    app.hide();
+                    if (process.platform === "darwin") {
+                        app.hide();
+                    }
                 });
             }
             if (!input.meta && !input.control && input.alt && input.key === 'Enter') {
@@ -128,13 +137,17 @@ app.on('ready', () => {
                     clipboard.writeText(text);
 
                     mb.hideWindow();
-                    app.hide();
+                    if (process.platform === "darwin") {
+                        app.hide();
+                    }
                 });
             }
 
             if (!input.meta && !input.control && !input.alt && input.key === 'Escape') {
                 mb.hideWindow();
-                app.hide();
+                if (process.platform === "darwin") {
+                    app.hide();
+                }
             }
         });
 
